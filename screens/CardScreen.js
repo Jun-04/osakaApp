@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+const cardMinWidth = Math.min(width * 0.8, 400); // 画面幅の80%か最大400px
 
 const CardScreen = () => {
   const [index, setIndex] = useState(0);
 
   const phrases = [
-
     { osaka: "おおきに", osaka_romaji: "ookini", japanese: "ありがとう", romaji: "arigatou", english: "Thank you" },
     { osaka: "なんでやねん", osaka_romaji: "nande ya nen", japanese: "どうしてだよ", romaji: "doushite dayo", english: "Why the heck!?" },
     { osaka: "ほんま？", osaka_romaji: "honma?", japanese: "本当？", romaji: "hontou?", english: "Really?" },
@@ -31,11 +33,11 @@ const CardScreen = () => {
     const nextCard = () => {
       setIndex((index + 1) % phrases.length);
     };
-  
+
     const prevCard = () => {
       setIndex((index - 1 + phrases.length) % phrases.length);
     };
-  
+
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -52,25 +54,27 @@ const CardScreen = () => {
       </View>
     );
   };
-  
+
   const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' },
+    container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f0f0f0' }, // 背景色を少しグレーに
     card: {
+      minWidth: cardMinWidth, // 最小幅を設定
       padding: 30,
-      backgroundColor: '#ffe4b5',
+      backgroundColor: '#fff', // 背景色を白に
       borderRadius: 10,
       alignItems: 'center',
-      elevation: 3,
+      // ボックスシャドウ
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
+      shadowOpacity: 0.2,
       shadowRadius: 4,
+      elevation: 5, // Android用
     },
-    osaka: { fontSize: 28, fontWeight: 'bold', color: '#d9534f' },
-    osakaRomaji: { fontSize: 18, fontStyle: 'italic', color: '#d9534f', marginTop: 4 },
+    osaka: { fontSize: 28, fontWeight: 'bold', color: '#333' },
+    osakaRomaji: { fontSize: 18, fontStyle: 'italic', color: '#777', marginTop: 4 },
     japanese: { fontSize: 24, marginTop: 16, color: '#333' },
-    romaji: { fontSize: 18, fontStyle: 'italic', marginTop: 4, color: '#555' },
-    english: { fontSize: 20, marginTop: 10, color: '#007aff' },
+    romaji: { fontSize: 18, fontStyle: 'italic', marginTop: 4, color: '#777' },
+    english: { fontSize: 20, marginTop: 10, color: '#333' },
     nav: {
       flexDirection: 'row',
       marginTop: 30,
@@ -78,5 +82,5 @@ const CardScreen = () => {
       justifyContent: 'space-between',
     },
   });
-  
+
   export default CardScreen;

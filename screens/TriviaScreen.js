@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 
 const trivia = [
-
   {
     title: "Kuidaore no Machi",
     content:
@@ -53,16 +52,20 @@ const trivia = [
     content:
       "This theater is Osaka’s comedy central – home to Yoshimoto comedians and famous manzai acts.",
   },
-  ];
+];
 
-  
+
 const TriviaScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selected, setSelected] = useState(null);
+  const [selectedTrivia, setSelectedTrivia] = useState(null);
 
   const handlePress = (item) => {
-    setSelected(item);
+    setSelectedTrivia(item);
     setModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -76,13 +79,20 @@ const TriviaScreen = () => {
           </TouchableOpacity>
         )}
       />
-      <Modal visible={modalVisible} animationType="slide" onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modal}>
-          <Text style={styles.modalTitle}>{selected?.title}</Text>
-          <Text style={styles.modalContent}>{selected?.content}</Text>
-          <TouchableOpacity onPress={() => setModalVisible(false)}>
-            <Text style={styles.close}>閉じる</Text>
-          </TouchableOpacity>
+      <Modal
+        visible={modalVisible}
+        animationType="fade" // アニメーションタイプをfadeまたはslideに変更
+        transparent={true}
+        onRequestClose={handleModalClose}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>{selectedTrivia?.title}</Text>
+            <Text style={styles.modalContent}>{selectedTrivia?.content}</Text>
+            <TouchableOpacity style={styles.closeButton} onPress={handleModalClose}>
+              <Text style={styles.closeText}>閉じる</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </View>
@@ -93,10 +103,35 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   item: { padding: 15, borderBottomWidth: 1, borderBottomColor: '#ccc' },
   title: { fontSize: 18 },
-  modal: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  modalTitle: { fontSize: 22, fontWeight: 'bold' },
-  modalContent: { fontSize: 18, marginTop: 10 },
-  close: { marginTop: 30, color: 'blue', fontSize: 16 },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 半透明の背景
+  },
+  modalCard: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    width: '80%', // モーダルの幅
+    maxWidth: 400,
+    alignItems: 'center',
+    elevation: 5, // Android用影
+    shadowColor: '#000', // iOS用影
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  modalTitle: { fontSize: 22, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
+  modalContent: { fontSize: 18, marginTop: 10, textAlign: 'center' },
+  closeButton: {
+    backgroundColor: '#007aff',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  closeText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });
 
 export default TriviaScreen;
