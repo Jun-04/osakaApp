@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const cardMinWidth = Math.min(width * 0.8, 400); // 画面幅の80%か最大400px
+const cardMinWidth = Math.min(width * 0.8, 400);
 
 const CardScreen = () => {
   const [index, setIndex] = useState(0);
@@ -56,19 +56,18 @@ const CardScreen = () => {
   };
 
   const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f0f0f0' }, // 背景色を少しグレーに
+    container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f0f0f0' }, 
     card: {
-      minWidth: cardMinWidth, // 最小幅を設定
+      minWidth: cardMinWidth, 
       padding: 30,
-      backgroundColor: '#fff', // 背景色を白に
+      backgroundColor: '#fff', 
       borderRadius: 10,
       alignItems: 'center',
-      // ボックスシャドウ
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.2,
       shadowRadius: 4,
-      elevation: 5, // Android用
+      elevation: 5, 
     },
     osaka: { fontSize: 28, fontWeight: 'bold', color: '#333' },
     osakaRomaji: { fontSize: 18, fontStyle: 'italic', color: '#777', marginTop: 4 },

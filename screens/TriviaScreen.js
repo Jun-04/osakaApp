@@ -1,63 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 
-const trivia = [
-  {
-    title: "Kuidaore no Machi",
-    content:
-      "Osaka is known as 'The City of Eating Until You Drop' because people would spend all their money on delicious food.",
-  },
-  {
-    title: "Maido! - A Versatile Greeting",
-    content:
-      "'Maido!' is a casual greeting from Osaka merchants, meaning 'Thanks always!' and used as a friendly way to welcome people.",
-  },
-  {
-    title: "Shortest National Highway",
-    content:
-      "National Route 174 in Osaka is only 187.1 meters long – the shortest national highway in Japan.",
-  },
-  {
-    title: "Chau nen!",
-    content:
-      "This phrase means 'That’s not it!' or 'You’re wrong!' but it’s often playful and humorous.",
-  },
-  {
-    title: "Takoyaki Maker in Every Home",
-    content:
-      "Most Osaka homes have a takoyaki maker – it's a staple for family meals and gatherings.",
-  },
-  {
-    title: "Ame-chan Culture",
-    content:
-      "Obachan (aunties) in Osaka carry candy ('ame-chan') and give them to start conversations or show kindness.",
-  },
-  {
-    title: "Okonomiyaki + Rice?!",
-    content:
-      "In Osaka, okonomiyaki is often eaten as a side dish – yes, with rice!",
-  },
-  {
-    title: "Nande ya nen!",
-    content:
-      "A classic Kansai retort meaning 'What are you saying?!' – often used in comedy and daily conversation.",
-  },
-  {
-    title: "Tsutenkaku Tower 2.0",
-    content:
-      "The current Tsutenkaku Tower was rebuilt in 1956 after the original was dismantled during WWII.",
-  },
-  {
-    title: "Namba Grand Kagetsu",
-    content:
-      "This theater is Osaka’s comedy central – home to Yoshimoto comedians and famous manzai acts.",
-  },
-];
-
-
 const TriviaScreen = () => {
+  const [triviaData, setTriviaData] = useState([]); //this useState is for stoering trivia data via API (^^)
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTrivia, setSelectedTrivia] = useState(null);
+  const gistRawUrl = `https://gist.githubusercontent.com/Jun-04/626e2f9fa0544d5200692612b2163925/raw/3ec64b3a0e173cf4e168f58a92394954992abf8a/trivia.json`;
+  //I use this json data from my github
+  useEffect(() => {
+    const fetchTrivia = async()=>{
+      try {
+        const response = await fetch(gistRawUrl);
+        const data = await response.json();
+        setTriviaData(data);
+      } catch (error) {
+        console.error('データの取得に失敗しました:', error);
+      }
+    };
+    fetchTrivia();
+  }, []);
+  
 
   const handlePress = (item) => {
     setSelectedTrivia(item);
@@ -71,7 +33,7 @@ const TriviaScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={trivia}
+        data={triviaData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.item} onPress={() => handlePress(item)}>

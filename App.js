@@ -15,6 +15,7 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           headerRight: () => <CustomHeader />,
+          headerLeft: null,
         }}
       >
         <Stack.Screen

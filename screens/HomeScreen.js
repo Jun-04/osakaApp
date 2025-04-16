@@ -34,9 +34,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, // 左右に余白を追加
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
     marginBottom: 20,
   },
   title: {

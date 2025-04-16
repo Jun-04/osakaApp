@@ -7,13 +7,16 @@
     "start": "npx expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --w"
+    "web": "expo start --w"git
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
+    "@react-native-firebase/app": "^21.14.0",
+    "@react-native-firebase/storage": "^21.14.0",
     "@react-navigation/native": "^7.1.6",
     "@react-navigation/native-stack": "^7.3.10",
     "expo-status-bar": "~2.0.1",
+    "firebase": "^11.6.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.9",
