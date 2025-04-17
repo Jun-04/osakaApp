@@ -1,59 +1,78 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Button, Dimensions, ActivityIndicator } from 'react-native';
+ 
 
 const { width } = Dimensions.get('window');
 const cardMinWidth = Math.min(width * 0.8, 400);
+const GIT_HUB_API_URL = `https://gist.githubusercontent.com/Jun-04/242b51e0c6bc2e0208f52e50d647be70/raw/3e2f3fcb6907782bb3721b7cc36bacc8391a7ee4/phrases.json`;
 
 const CardScreen = () => {
+  const [phrases, setPhrases] = useState([]);
   const [index, setIndex] = useState(0);
+  const [loading, setLoading] = useState(true); // show loding during fetching API data.
+  const [error, setError] = useState(null); // if fail it, show this.
 
-  const phrases = [
-    { osaka: "おおきに", osaka_romaji: "ookini", japanese: "ありがとう", romaji: "arigatou", english: "Thank you" },
-    { osaka: "なんでやねん", osaka_romaji: "nande ya nen", japanese: "どうしてだよ", romaji: "doushite dayo", english: "Why the heck!?" },
-    { osaka: "ほんま？", osaka_romaji: "honma?", japanese: "本当？", romaji: "hontou?", english: "Really?" },
-    { osaka: "めっちゃうまい", osaka_romaji: "meccha umai", japanese: "とても美味しい", romaji: "totemo oishii", english: "Super tasty" },
-    { osaka: "あかん", osaka_romaji: "akan", japanese: "ダメ", romaji: "dame", english: "No good" },
-    { osaka: "かなんわ〜", osaka_romaji: "kananwa~", japanese: "困るよ〜", romaji: "komaru yo~", english: "That's troublesome" },
-    { osaka: "いてまうで", osaka_romaji: "itemau de", japanese: "殴っちゃうぞ", romaji: "nagucchau zo", english: "I'll punch you!" },
-    { osaka: "せやな", osaka_romaji: "seyana", japanese: "そうだね", romaji: "sou da ne", english: "That's right" },
-    { osaka: "なんぼ？", osaka_romaji: "nanbo?", japanese: "いくら？", romaji: "ikura?", english: "How much?" },
-    { osaka: "ちゃうちゃう", osaka_romaji: "chau chau", japanese: "違う違う", romaji: "chigau chigau", english: "No no, that's wrong" },
-    { osaka: "はよしてや", osaka_romaji: "hayoshite ya", japanese: "早くして", romaji: "hayaku shite", english: "Hurry up" },
-    { osaka: "しんどいわ〜", osaka_romaji: "shindoi wa~", japanese: "疲れた〜", romaji: "tsukareta~", english: "I'm exhausted" },
-    { osaka: "おもろいな〜", osaka_romaji: "omoroi na~", japanese: "面白いね", romaji: "omoshiroi ne", english: "That's funny" },
-    { osaka: "いけるやん！", osaka_romaji: "ikeru yan!", japanese: "できるじゃん！", romaji: "dekiru jan!", english: "You can do it!" },
-    { osaka: "どないしたん？", osaka_romaji: "donai shitan?", japanese: "どうしたの？", romaji: "dou shitan?", english: "What happened?" },
-    { osaka: "しゃあないなぁ", osaka_romaji: "shaanai naa", japanese: "仕方ないなぁ", romaji: "shikatanai naa", english: "Can't be helped" },
-    { osaka: "まいど〜", osaka_romaji: "maido~", japanese: "いらっしゃいませ", romaji: "irasshaimase", english: "Welcome!" },
-    { osaka: "いらん", osaka_romaji: "iran", japanese: "いらない", romaji: "iranai", english: "I don't need it" },
-    { osaka: "よう言わんわ", osaka_romaji: "you iwan wa", japanese: "よく言えるね", romaji: "yoku ieru ne", english: "I can't believe you said that" },
-    { osaka: "いてこますぞ", osaka_romaji: "itekomasu zo", japanese: "懲らしめてやるぞ", romaji: "korashimete yaru zo", english: "I'll beat you up" },  ];
+useEffect(() => {
+  const fetchData = async()=>{
+    setLoading(true);
+    setError(null);
+try {
+  const response = await fetch(GIT_HUB_API_URL);
+  if(!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const data = await response.json();
+  setPhrases(data);
+} catch (e) {
+  setError(e.message);
+} finally{
+  setLoading(false);
+}
+};
+fetchData();
+},
+[]);
 
+const nextCard = () => {
+  if (phrases.length > 0) {
+    setIndex((index + 1) % phrases.length);
+  }
+};
 
-    const nextCard = () => {
-      setIndex((index + 1) % phrases.length);
-    };
+const prevCard = () => {
+  if (phrases.length > 0) {
+    setIndex((index - 1 + phrases.length) % phrases.length);
+  }
+};
 
-    const prevCard = () => {
-      setIndex((index - 1 + phrases.length) % phrases.length);
-    };
+if (loading) {
+  return <View style={styles.loadingContainer}><ActivityIndicator size="large" color="#0000ff" /></View>;
+}
 
-    return (
-      <View style={styles.container}>
-        <View style={styles.card}>
-          <Text style={styles.osaka}>{phrases[index].osaka}</Text>
-          <Text style={styles.osakaRomaji}>{phrases[index].osaka_romaji}</Text>
-          <Text style={styles.japanese}>{phrases[index].japanese}</Text>
-          <Text style={styles.romaji}>{phrases[index].romaji}</Text>
-          <Text style={styles.english}>{phrases[index].english}</Text>
-        </View>
-        <View style={styles.nav}>
-          <Button title="←" onPress={prevCard} />
-          <Button title="→" onPress={nextCard} />
-        </View>
+if (error) {
+  return <View style={styles.errorContainer}><Text>Error: {error}</Text></View>;
+}
+
+return (
+  <View style={styles.container}>
+    {phrases.length > 0 ? (
+      <View style={styles.card}>
+        <Text style={styles.osaka}>{phrases[index].osaka}</Text>
+        <Text style={styles.osakaRomaji}>{phrases[index].osaka_romaji}</Text>
+        <Text style={styles.japanese}>{phrases[index].japanese}</Text>
+        <Text style={styles.romaji}>{phrases[index].romaji}</Text>
+        <Text style={styles.english}>{phrases[index].english}</Text>
       </View>
-    );
-  };
+    ) : (
+      <Text>No phrases data available.</Text>
+    )}
+    <View style={styles.nav}>
+      <Button title="←" onPress={prevCard} disabled={phrases.length === 0} />
+      <Button title="→" onPress={nextCard} disabled={phrases.length === 0} />
+    </View>
+  </View>
+);
+};
 
   const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f0f0f0' }, 

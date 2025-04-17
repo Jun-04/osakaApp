@@ -52,7 +52,7 @@ const TriviaScreen = () => {
             <Text style={styles.modalTitle}>{selectedTrivia?.title}</Text>
             <Text style={styles.modalContent}>{selectedTrivia?.content}</Text>
             <TouchableOpacity style={styles.closeButton} onPress={handleModalClose}>
-              <Text style={styles.closeText}>閉じる</Text>
+              <Text style={styles.closeText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -69,17 +69,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 半透明の背景
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
   },
   modalCard: {
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 20,
-    width: '80%', // モーダルの幅
+    width: '80%', 
     maxWidth: 400,
     alignItems: 'center',
-    elevation: 5, // Android用影
-    shadowColor: '#000', // iOS用影
+    elevation: 5, 
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
