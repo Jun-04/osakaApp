@@ -4,14 +4,13 @@ import { View, Text, StyleSheet, Button, Dimensions, ActivityIndicator } from 'r
 
 const { width } = Dimensions.get('window');
 const cardMinWidth = Math.min(width * 0.8, 400);
-const GIT_HUB_API_URL = `https://gist.githubusercontent.com/Jun-04/242b51e0c6bc2e0208f52e50d647be70/raw/3e2f3fcb6907782bb3721b7cc36bacc8391a7ee4/phrases.json`;
+const GIT_HUB_API_URL = `https://gist.githubusercontent.com/Jun-04/242b51e0c6bc2e0208f52e50d647be70/raw/60cb8ff651d593a19ff583db81d575182bd604f3/phrases.json`;
 
 const CardScreen = () => {
   const [phrases, setPhrases] = useState([]);
   const [index, setIndex] = useState(0);
-  const [loading, setLoading] = useState(true); // show loding during fetching API data.
-  const [error, setError] = useState(null); // if fail it, show this.
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
 useEffect(() => {
   const fetchData = async()=>{
     setLoading(true);
