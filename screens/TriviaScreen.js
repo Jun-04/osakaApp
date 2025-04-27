@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Modal, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Modal, StyleSheet, ActivityIndicator,Button } from 'react-native';
 
 const TriviaScreen = () => {
   const [triviaData, setTriviaData] = useState([]);
@@ -80,21 +80,17 @@ const TriviaScreen = () => {
         )}
       />
       <View style={styles.paginationContainer}>
-        <TouchableOpacity
+        <Button
+          title="Back"
           onPress={prevPage}
           disabled={currentPage === 0}
-          style={[styles.paginationButton, currentPage === 0 && styles.disabledButton]}
-        >
-          <Text style={styles.paginationButtonText}>戻る</Text>
-        </TouchableOpacity>
+        />
         <Text style={styles.pageNumber}>{currentPage + 1} / {totalPages}</Text>
-        <TouchableOpacity
+        <Button
+          title="Next"
           onPress={nextPage}
           disabled={currentPage === totalPages - 1 || totalPages === 0}
-          style={[styles.paginationButton, (currentPage === totalPages - 1 || totalPages === 0) && styles.disabledButton]}
-        >
-          <Text style={styles.paginationButtonText}>次へ</Text>
-        </TouchableOpacity>
+        />
       </View>
       <Modal
         visible={modalVisible}

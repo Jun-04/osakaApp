@@ -67,8 +67,8 @@ return (
       <Text>No phrases data available.</Text>
     )}
     <View style={styles.nav}>
-      <Button title="←" onPress={prevCard} disabled={phrases.length === 0} />
-      <Button title="→" onPress={nextCard} disabled={phrases.length === 0} />
+      <Button title="Back" onPress={prevCard} disabled={phrases.length === 0} />
+      <Button title="Next" onPress={nextCard} disabled={phrases.length === 0} />
     </View>
   </View>
 );
